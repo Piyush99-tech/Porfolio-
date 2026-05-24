@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Piyush Kala — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0a0a0b; --surface: #111113; --surface2: #18181c;
+    --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.12);
+    --text: #f0ede8; --muted: #888680; --accent: #c8f060; --accent2: #60c8f0;
+    --mono: 'DM Mono', monospace; --sans: 'Syne', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.6; min-height: 100vh; }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 3rem; background: rgba(10,10,11,0.85); backdrop-filter: blur(12px); border-bottom: 0.5px solid var(--border); }
+  .nav-logo { font-family: var(--mono); font-size: 13px; color: var(--accent); letter-spacing: 0.04em; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { font-family: var(--mono); font-size: 12px; color: var(--muted); text-decoration: none; letter-spacing: 0.06em; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 8rem 3rem 5rem; position: relative; overflow: hidden; }
+  .hero-grid { position: absolute; inset: 0; opacity: 0.025; background-image: linear-gradient(var(--text) 1px, transparent 1px), linear-gradient(90deg, var(--text) 1px, transparent 1px); background-size: 60px 60px; }
+  .hero-tag { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
+  .hero-tag::before { content: ''; display: inline-block; width: 32px; height: 1px; background: var(--accent); }
+  .hero h1 { font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 800; line-height: 0.95; letter-spacing: -0.03em; margin-bottom: 1.5rem; }
+  .hero h1 span { color: var(--accent); }
+  .hero-desc { font-family: var(--mono); font-size: 14px; color: var(--muted); max-width: 520px; line-height: 1.8; margin-bottom: 3rem; }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; padding: 0.8rem 1.75rem; border-radius: 3px; cursor: pointer; text-decoration: none; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.5rem; }
+  .btn-primary { background: var(--accent); color: #0a0a0b; border: 1px solid var(--accent); }
+  .btn-primary:hover { background: transparent; color: var(--accent); }
+  .btn-outline { background: transparent; color: var(--text); border: 0.5px solid var(--border2); }
+  .btn-outline:hover { border-color: var(--text); }
+  .hero-stats { display: flex; gap: 3rem; margin-top: 5rem; padding-top: 3rem; border-top: 0.5px solid var(--border); }
+  .stat-num { font-size: 2rem; font-weight: 700; color: var(--accent); line-height: 1; margin-bottom: 0.3rem; }
+  .stat-label { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.06em; }
+  section { padding: 6rem 3rem; }
+  .section-tag { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.1em; margin-bottom: 0.75rem; }
+  .section-title { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 3rem; }
+  .section-title span { color: var(--accent); }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1px; border: 0.5px solid var(--border); }
+  .skill-cell { padding: 1.5rem; background: var(--surface); transition: background 0.2s; }
+  .skill-cell:hover { background: var(--surface2); }
+  .skill-cell-label { font-family: var(--mono); font-size: 10px; color: var(--accent2); letter-spacing: 0.1em; margin-bottom: 0.75rem; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .skill-tag { font-family: var(--mono); font-size: 11px; color: var(--muted); padding: 0.25rem 0.6rem; border: 0.5px solid var(--border); border-radius: 2px; }
+  .exp-card { border: 0.5px solid var(--border); padding: 2rem 2.5rem; background: var(--surface); margin-bottom: 1px; position: relative; overflow: hidden; transition: border-color 0.2s; }
+  .exp-card:hover { border-color: var(--border2); }
+  .exp-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--accent); }
+  .exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem; }
+  .exp-role { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.25rem; }
+  .exp-company { font-family: var(--mono); font-size: 12px; color: var(--accent); }
+  .exp-date { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.06em; }
+  .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  .exp-bullets li { font-family: var(--mono); font-size: 13px; color: var(--muted); display: flex; gap: 0.75rem; align-items: flex-start; line-height: 1.6; }
+  .exp-bullets li::before { content: '→'; color: var(--accent); flex-shrink: 0; margin-top: 1px; }
+  .exp-bullets em { color: var(--text); font-style: normal; }
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1px; background: var(--border); }
+  .project-card { background: var(--surface); padding: 2rem; transition: background 0.2s; }
+  .project-card:hover { background: var(--surface2); }
+  .project-num { font-family: var(--mono); font-size: 11px; color: var(--border2); margin-bottom: 1rem; }
+  .project-name { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .project-desc { font-family: var(--mono); font-size: 12px; color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem; }
+  .project-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; }
+  .stack-tag { font-family: var(--mono); font-size: 10px; color: var(--accent2); padding: 0.2rem 0.5rem; border: 0.5px solid rgba(96,200,240,0.25); border-radius: 2px; }
+  .project-highlight { font-family: var(--mono); font-size: 11px; color: var(--accent); border-top: 0.5px solid var(--border); padding-top: 1rem; }
+  .dsa-banner { background: var(--surface); border: 0.5px solid var(--border); padding: 3rem; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; text-align: center; }
+  .dsa-big { font-size: 2.5rem; font-weight: 800; color: var(--accent); line-height: 1; margin-bottom: 0.4rem; }
+  .dsa-label { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.06em; }
+  .dsa-divider { width: 0.5px; background: var(--border); }
+  .contact-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .contact-link { font-family: var(--mono); font-size: 13px; color: var(--muted); text-decoration: none; padding: 0.8rem 1.5rem; border: 0.5px solid var(--border); border-radius: 3px; transition: all 0.2s; display: flex; align-items: center; gap: 0.5rem; }
+  .contact-link:hover { color: var(--text); border-color: var(--border2); }
+  .contact-link .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  footer { padding: 2rem 3rem; border-top: 0.5px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  footer p { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  .hero-tag { animation: fadeUp 0.5s ease both; }
+  .hero h1 { animation: fadeUp 0.5s 0.1s ease both; }
+  .hero-desc { animation: fadeUp 0.5s 0.2s ease both; }
+  .hero-actions { animation: fadeUp 0.5s 0.3s ease both; }
+  .hero-stats { animation: fadeUp 0.5s 0.4s ease both; }
+  @media (max-width: 640px) {
+    nav { padding: 1rem 1.5rem; }
+    .hero, section { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
+    .dsa-banner { grid-template-columns: 1fr; }
+    .dsa-divider { display: none; }
+  }
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo">pk.dev</div>
+  <ul class="nav-links">
+    <li><a href="#skills">skills</a></li>
+    <li><a href="#experience">experience</a></li>
+    <li><a href="#projects">projects</a></li>
+    <li><a href="#contact">contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero" id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-tag">Full Stack Software Developer</div>
+  <h1>Piyush<br><span>Kala.</span></h1>
+  <p class="hero-desc">Building scalable web apps with Java, Spring Boot, React &amp; Node.js.<br>I turn complex backend problems into measurable wins — 97% latency cuts, 10× throughput gains, AI-powered pipelines.</p>
+  <div class="hero-actions">
+    <a href="mailto:piyushkala9@gmail.com" class="btn btn-primary">↗ get in touch</a>
+    <a href="https://github.com/Piyush99-tech" class="btn btn-outline">github</a>
+    <a href="https://linkedin.com/in/piyush-kala" class="btn btn-outline">linkedin</a>
+  </div>
+  <div class="hero-stats">
+    <div><div class="stat-num">97%</div><div class="stat-label">latency reduction @ Unicommerce</div></div>
+    <div><div class="stat-num">800+</div><div class="stat-label">DSA problems solved</div></div>
+    <div><div class="stat-num">1896</div><div class="stat-label">LeetCode peak rating</div></div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="section-tag">// 01 — skills</div>
+  <h2 class="section-title">What I <span>work with</span></h2>
+  <div class="skills-grid">
+    <div class="skill-cell"><div class="skill-cell-label">LANGUAGES</div><div class="skill-tags"><span class="skill-tag">Java</span><span class="skill-tag">JavaScript</span><span class="skill-tag">Python</span><span class="skill-tag">C++</span></div></div>
+    <div class="skill-cell"><div class="skill-cell-label">FRONTEND</div><div class="skill-tags"><span class="skill-tag">React.js</span><span class="skill-tag">Redux</span><span class="skill-tag">HTML5</span><span class="skill-tag">CSS3</span><span class="skill-tag">Tailwind</span></div></div>
+    <div class="skill-cell"><div class="skill-cell-label">BACKEND</div><div class="skill-tags"><span class="skill-tag">Spring Boot</span><span class="skill-tag">Hibernate</span><span class="skill-tag">Node.js</span><span class="skill-tag">Express.js</span><span class="skill-tag">FastAPI</span><span class="skill-tag">REST APIs</span></div></div>
+    <div class="skill-cell"><div class="skill-cell-label">DATABASE</div><div class="skill-tags"><span class="skill-tag">MySQL</span><span class="skill-tag">MongoDB</span><span class="skill-tag">PostgreSQL</span></div></div>
+    <div class="skill-cell"><div class="skill-cell-label">AI / GENAI</div><div class="skill-tags"><span class="skill-tag">Anthropic API</span><span class="skill-tag">RAG</span><span class="skill-tag">Prompt Eng.</span><span class="skill-tag">GitHub Copilot</span><span class="skill-tag">Cursor</span></div></div>
+    <div class="skill-cell"><div class="skill-cell-label">TOOLS</div><div class="skill-tags"><span class="skill-tag">Git</span><span class="skill-tag">Postman</span><span class="skill-tag">Grafana</span><span class="skill-tag">Kibana</span></div></div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="section-tag">// 02 — experience</div>
+  <h2 class="section-title">Where I've <span>shipped</span></h2>
+  <div class="exp-card">
+    <div class="exp-header">
+      <div><div class="exp-role">Software Engineer Intern</div><div class="exp-company">Unicommerce</div></div>
+      <div class="exp-date">JAN 2026 — PRESENT</div>
+    </div>
+    <ul class="exp-bullets">
+      <li>Optimised bulk REST API for <em>1,000+ items</em> — latency dropped from 18s → ~500ms (<em>97% improvement</em>) using projection-based queries over Hibernate hydration.</li>
+      <li>Fixed N+1 query issues across DB interactions, cutting API response time from <em>~5–6s to 600ms</em>.</li>
+      <li>Built a <em>RAG-based GenAI retrieval system</em> with prompt engineering to deliver context-aware developer support.</li>
+      <li>Engineered a configurable QC Rejection Reasons system in <em>Java + Spring Boot</em>, eliminating static workflow dependency.</li>
+      <li>Designed async file download workflow to decouple I/O from the main thread. Monitored production via <em>Grafana &amp; Kibana</em>.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="section-tag">// 03 — projects</div>
+  <h2 class="section-title">Things I've <span>built</span></h2>
+  <div class="projects-grid">
+    <div class="project-card">
+      <div class="project-num">01 /</div>
+      <div class="project-name">Guest Message AI Backend</div>
+      <p class="project-desc">FastAPI microservice that ingests guest messages, classifies intent, scores confidence, and auto-drafts replies via the Anthropic Claude API — recommending auto_send, agent_review, or escalate.</p>
+      <div class="project-stack"><span class="stack-tag">Python</span><span class="stack-tag">FastAPI</span><span class="stack-tag">Pydantic</span><span class="stack-tag">httpx</span><span class="stack-tag">Anthropic API</span><span class="stack-tag">PostgreSQL</span></div>
+      <div class="project-highlight">→ thin-route / fat-services architecture · async LLM calls · unified DB inbox schema</div>
+    </div>
+    <div class="project-card">
+      <div class="project-num">02 /</div>
+      <div class="project-name">Edu-Learn</div>
+      <p class="project-desc">Full-stack EdTech platform with JWT auth, course management, user enrollment and progress tracking, Cloudinary media storage — end-to-end from React frontend to Express backend.</p>
+      <div class="project-stack"><span class="stack-tag">React.js</span><span class="stack-tag">Redux</span><span class="stack-tag">Node.js</span><span class="stack-tag">Express.js</span><span class="stack-tag">MongoDB</span><span class="stack-tag">JWT</span><span class="stack-tag">Cloudinary</span></div>
+      <div class="project-highlight">→ secure auth · REST API design · optimised data pipeline</div>
+    </div>
+    <div class="project-card">
+      <div class="project-num">03 /</div>
+      <div class="project-name">CodeSync</div>
+      <p class="project-desc">Real-time collaborative code editor powered by WebSockets. Multiple users, zero lag, consistent state — event-driven architecture with scalable session management.</p>
+      <div class="project-stack"><span class="stack-tag">React.js</span><span class="stack-tag">Node.js</span><span class="stack-tag">Socket.io</span><span class="stack-tag">WebSockets</span><span class="stack-tag">JavaScript</span></div>
+      <div class="project-highlight">→ low-latency sync · concurrent session handling · event-driven comms</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-tag">// 04 — competitive programming</div>
+  <h2 class="section-title">Algorithmic <span>edge</span></h2>
+  <div class="dsa-banner">
+    <div><div class="dsa-big">Knight</div><div class="dsa-label">LeetCode badge</div></div>
+    <div class="dsa-divider"></div>
+    <div><div class="dsa-big">1896</div><div class="dsa-label">LeetCode peak rating</div></div>
+    <div class="dsa-divider"></div>
+    <div><div class="dsa-big">1100+</div><div class="dsa-label">total problems solved</div></div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="section-tag">// 05 — contact</div>
+  <h2 class="section-title">Let's <span>connect</span></h2>
+  <p style="font-family: var(--mono); font-size: 13px; color: var(--muted); margin-bottom: 2rem; max-width: 480px; line-height: 1.8;">Open to internships and full-time roles. Drop me a line — I reply fast.</p>
+  <div class="contact-row">
+    <a href="mailto:piyushkala9@gmail.com" class="contact-link"><span class="dot"></span> piyushkala9@gmail.com</a>
+    <a href="https://linkedin.com/in/piyush-kala" class="contact-link"><span class="dot"></span> linkedin</a>
+    <a href="https://github.com/Piyush99-tech" class="contact-link"><span class="dot"></span> github</a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Piyush Kala. Built with intent.</p>
+  <p>Gurgaon, India · +91-9079918773</p>
+</footer>
+</body>
+</html>
